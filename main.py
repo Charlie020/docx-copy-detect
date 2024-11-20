@@ -11,8 +11,7 @@ def show_indices_in_es(es):
 
 def get_doc_content_by_id(es, index_name, doc_id):
     response = es.get(index=index_name, id=doc_id)
-    print("Document found:")
-    print(response['_source'])
+    return response['_source']['content']
 
 def delete_documents(es, index_name, doc_id):
     es.delete(index=index_name, id=doc_id)
@@ -23,7 +22,6 @@ if __name__ == '__main__':
     es = connect_elasticsearch()
 
     input_file_path = './1.docx'
-    copy_detect(input_file_path, es, '5、运维服务内审、管审', choice='text')
-
+    copy_detect(input_file_path, es, '5、运维服务内审、管审', choice='text', num_chunks=1)
     pass
 

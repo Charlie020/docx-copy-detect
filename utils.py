@@ -24,6 +24,7 @@ def get_doc_content(file_path):
     """
     doc = Document(file_path)
     content = ""
+    cnt = 0  # 记录当前遍历到的表格数
     for element in doc.element.body:
         if element.tag.endswith("p"):  # 段落元素
             paragraph = element.xpath(".//w:t")
@@ -31,10 +32,10 @@ def get_doc_content(file_path):
                 text = ''.join([node.text for node in paragraph if node.text])
                 content += text + "\n"
         elif element.tag.endswith("tbl"):  # 表格元素
-            for table in doc.tables:
-                for row in table.rows:
-                    row_text = '\t'.join(cell.text.strip() for cell in row.cells if cell.text)
-                    content += row_text + "\n"
+            for row in doc.tables[cnt].rows:
+                row_text = '\t'.join(cell.text.strip() for cell in row.cells if cell.text)
+                content += row_text + "\n"
+            cnt += 1
     return content
 
 def extract_sentences(content):

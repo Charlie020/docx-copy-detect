@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument("--file", "-f", type=str, default="./1.docx", required=False, help="Path of the input file")
     parser.add_argument("--index", "-i", type=str, default="5、运维服务内审、管审", required=False, help="Index name")
     parser.add_argument("--choice", "-c", type=str, default="text", required=False, help="Type of the detection: semantic or text")
-    parser.add_argument("--num_chunks", "-n", type=int, default="1", required=False, help="Number of the chunks")
+    parser.add_argument("--num_chunks", "-n", type=int, default=1, required=False, help="Number of the chunks")
 
     args = parser.parse_args()
     es = connect_elasticsearch(hosts=args.hosts, username=args.username, password=args.passwd)

@@ -1,6 +1,5 @@
 import hanlp
 import multiprocessing
-import math
 multiprocessing.set_start_method('spawn', force=True)
 
 from tqdm import tqdm
@@ -38,16 +37,21 @@ def semantic_detect(sentences, related_docs_sentences, num_chunks):  # sts need 
 
 def text_detect_for_chunk(sentences_tokens, related_docs_sentences_tokens):
     result = []
-    for i, sentence in tqdm(enumerate(sentences_tokens), desc="Processing sentence chunks..."):
+    for i, sentence_tokens in tqdm(enumerate(sentences_tokens), desc="Processing sentence chunks..."):
         for j, related_sentences_tokens in enumerate(related_docs_sentences_tokens):
             for k, related_sentence_tokens in enumerate(related_sentences_tokens):
-                cnt = 0
-                for token in sentence:
-                    if token in related_sentence_tokens:
-                        cnt += 1
-                sim = 2.0 * cnt / (len(sentence) + len(related_sentence_tokens))
-                if sim > 0.7:
-                    result.extend([(i, j, k, sim)])
+                # Jaccard Similarity
+                set1 = set(sentence_tokens)
+                set2 = set(related_sentence_tokens)
+                intersection = set1 & set2
+                union = set1 | set2
+                sim = len(intersection) / len(union) if union != 0 else 0.0
+                if sim > 0.5:
+                    cnt = 0
+                    for token in intersection:
+                        cnt += len(token)
+                    if cnt >= 13:
+                        result.append((i, j, k, sim))
     return result
 
 def text_detect(sentences, related_docs_sentences, num_chunks):
@@ -100,7 +104,6 @@ def copy_detect(file_path, es, index_name, choice, num_chunks=4):
         similar_sentences = parse_similar_sentences(sentences, related_docs, related_docs_sentences, similar_sentences_indices)
         for i, j, k, sim in similar_sentences:
             print(f"Sentence '{i}' has a {sim:.3f} similarity to Sentence '{k}' in Document '{j}'")
-
     else:
         raise ValueError(f"Invalid choice '{choice}'. Must be one of {valid_choices}.")
 

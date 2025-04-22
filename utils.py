@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch
 from docx import Document
 
 
-def connect_elasticsearch(hosts='http://127.0.0.1:1200', username='elastic', password='infini_rag_flow'):
+def connect_elasticsearch(hosts='http://127.0.0.1:1200', username='elastic', password='initial'):
     es = Elasticsearch(
         hosts=[hosts],
         basic_auth=(username, password),

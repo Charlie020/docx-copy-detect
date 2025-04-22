@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Parameters for copy detect")
     parser.add_argument("--hosts", type=str, default="http://127.0.0.1:1200", required=False, help="Elasticsearch hosts")
     parser.add_argument("--username", type=str, default="elastic", required=False, help="Elasticsearch username")
-    parser.add_argument("--passwd", type=str, default="infini_rag_flow", required=False, help="Elasticsearch password")
+    parser.add_argument("--passwd", type=str, default="initial", required=False, help="Elasticsearch password")
     parser.add_argument("--file", "-f", type=str, default="./1.docx", required=False, help="Path of the input file")
     parser.add_argument("--index", "-i", type=str, default="5、运维服务内审、管审", required=False, help="Index name")
     parser.add_argument("--choice", "-c", type=str, default="text", required=False, help="Type of the detection: semantic or text")
